@@ -1,9 +1,9 @@
 # frozen_string_literal: true
 
-# Endoint to receive signal from apps
+# Endoint to receive signals from apps
 class SignalsController < ApplicationController
   def create
-    @heartbeat = Heartbeat.find_by(
+    @heartbeat = Heartbeat.find_by!(
       application: params[:application],
       token: params[:token]
     )
@@ -13,5 +13,9 @@ class SignalsController < ApplicationController
     else
       render json: @heartbeat.errors, status: :unprocessable_entity
     end
+  end
+
+  rescue_from ActiveRecord::RecordNotFound do |exception|
+    render json: { error: exception.message }, status: :not_found
   end
 end
