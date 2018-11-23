@@ -14,8 +14,4 @@ class SignalsController < ApplicationController
       render json: @heartbeat.errors, status: :unprocessable_entity
     end
   end
-
-  rescue_from ActiveRecord::RecordNotFound do |exception|
-    render json: { error: exception.message }, status: :not_found
-  end
 end
