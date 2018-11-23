@@ -2,5 +2,8 @@
 
 # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
 Rails.application.routes.draw do
-  resource :signals, only: [:create]
+  post 'signal', to: 'signals#create', as: 'signal'
+
+  get 'checks/', to: 'checks#index', as: 'checks'
+  get 'checks/:application', to: 'checks#show', as: 'check'
 end
