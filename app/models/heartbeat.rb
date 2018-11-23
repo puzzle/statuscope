@@ -12,4 +12,13 @@ class Heartbeat < ApplicationRecord
       last_signal_at: Time.zone.now
     )
   end
+
+  def as_json(req)
+    {
+      application: application,
+      state: last_signal_ok? ? 'ok' : 'fail',
+      check_in: last_signal_at,
+      interval: interval_seconds
+    }
+  end
 end
