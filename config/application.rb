@@ -26,6 +26,13 @@ module Statuscope
 
     config.generators do |g|
       g.test_framework :rspec
+
+      g.assets false
+      g.helpers false
+      g.javascripts false
+      g.stylesheets false
+      g.view_specs false
+      g.helper_specs false
     end
 
     # Only loads a smaller set of middleware suitable for API only apps.
