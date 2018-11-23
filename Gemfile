@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 source 'https://rubygems.org'
 git_source(:github) { |repo| "https://github.com/#{repo}.git" }
 
@@ -6,19 +8,21 @@ ruby '2.5.0'
 gem 'rails', '~> 5.2.1'
 
 gem 'sqlite3'         # database
+
 gem 'puma', '~> 3.11' # app server
 
 # gem 'jbuilder', '~> 2.5' # Build JSON APIs with ease. Read more: https://github.com/rails/jbuilder
 
-gem 'bootsnap', '>= 1.1.0', require: false # Reduces boot times through caching; required in config/boot.rb
+gem 'bootsnap', '>= 1.1.0', require: false # Reduces boot times through caching
 
 group :development, :test do
-  gem 'pry-rails'
-  gem 'pry-byebug'
+  gem 'pry-byebug' # integrate proper debugging
+  gem 'pry-rails'  # replace IRB
 
-  gem 'rubocop'
+  gem 'rubocop' # go down in style, consistently
 
-  gem 'rspec-rails'
+  gem 'fabrication' # replace fixtures
+  gem 'rspec-rails' # essentially anything but mintest or test/unit
 end
 
 group :development do
