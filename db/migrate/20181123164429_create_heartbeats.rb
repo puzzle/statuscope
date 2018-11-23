@@ -1,4 +1,6 @@
-class CreateHeartbeats < ActiveRecord::Migration[5.2]
+# frozen_string_literal: true
+
+class CreateHeartbeats < ActiveRecord::Migration[5.2] # :nodoc:
   def change
     create_table :heartbeats do |t|
       t.string :application

@@ -1,0 +1,17 @@
+AllCops:
+  DisplayCopNames: true
+  Exclude:
+    - db/schema.rb
+    - config/**/*
+    - bin/**/*
+    - vendor/**/*
+    - tmp/**/*
+    - app/assets/config.rb
+
+Metrics/BlockLength:
+  Exclude:
+    - spec/**/*
+    - lib/tasks/*.rake
+
+Metrics/LineLength:
+  Max: 100
