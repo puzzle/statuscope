@@ -1,24 +1,18 @@
 # README
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+# Configuring
 
-Things you may want to cover:
+Use the rails tasks:
 
-* Ruby version
+    rails heartbeat:add APPLICATION=my_app INTERVAL_SECONDS=16800
+    # => Added. Token: GTWSEcRz4e59dCJKa4AjLvxe
 
-* System dependencies
+    rails heartbeat:token APPLICATION=my_app
+    # => Token: GTWSEcRz4e59dCJKa4AjLvxe
 
-* Configuration
+    rails heartbeat:remove APPLICATION=my_app
+    # => Removed.
 
-* Database creation
+# Sending a heartbeat via curl
 
-* Database initialization
-
-* How to run the test suite
-
-* Services (job queues, cache servers, search engines, etc.)
-
-* Deployment instructions
-
-* ...
+TODO
