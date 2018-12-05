@@ -20,7 +20,8 @@ ActiveRecord::Schema.define(version: 2018_11_23_164429) do
     t.boolean "last_signal_ok"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["application", "token"], name: "index_heartbeats_on_application_and_token", unique: true
+    t.index ["application"], name: "index_heartbeats_on_application", unique: true
+    t.index ["token"], name: "index_heartbeats_on_token", unique: true
   end
 
 end
