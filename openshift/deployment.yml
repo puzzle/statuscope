@@ -1,0 +1,90 @@
+---
+apiVersion: v1
+kind: DeploymentConfig
+metadata:
+  labels:
+    app: statuscope
+  name: statuscope
+spec:
+  replicas: 1
+  selector:
+    app: statuscope
+  template:
+    metadata:
+      labels:
+        app: statuscope
+    strategy:
+      type: Recreate # sqlite database cannot be shared
+    spec:
+      containers:
+      - image: statuscope:latest
+        imagePullPolicy: Always
+        livenessProbe:
+          httpGet:
+            path: /healthz
+            port: 8080
+          initialDelaySeconds: 30
+          timeoutSeconds: 10
+        name: statuscope
+        env:
+          - name: RAILS_SQLITE_FILE_PATH
+            value: /opt/database/database.sqlite3
+          - name: RAILS_LOG_TO_STDOUT
+            value: "1"
+          - name: SECRET_KEY_BASE
+            valueFrom:
+              secretKeyRef:
+                key: secret_key_base
+                name: statuscope-rails
+        ports:
+        - containerPort: 8080
+          protocol: TCP
+        resources:
+          limits:
+            cpu: 300m
+            memory: 100Mi
+          requests:
+            cpu: 50m
+            memory: 100Mi
+        volumeMounts:
+          - name: database
+            mountPath: /opt/database
+      volumes:
+      - name: database
+        persistentVolumeClaim:
+          claimName: statuscope-database
+  triggers:
+  - type: ImageChange
+    imageChangeParams:
+      automatic: true
+      containerNames:
+        - statuscope
+      from:
+        kind: ImageStreamTag
+        name: statuscope:latest
+---
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app: statuscope
+  name: statuscope
+spec:
+  ports:
+  - name: 8080-tcp
+    port: 8080
+    protocol: TCP
+    targetPort: 8080
+  selector:
+    app: statuscope
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: statuscope-database
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 1Gi

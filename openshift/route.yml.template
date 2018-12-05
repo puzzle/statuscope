@@ -1,0 +1,11 @@
+---
+kind: Route
+metadata:
+  name: HOSTNAME_PLACEHOLDER
+spec:
+  host: HOSTNAME_PLACEHOLDER
+  tls:
+    termination: edge
+  to:
+    kind: Service
+    name: statuscope

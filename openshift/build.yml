@@ -1,0 +1,50 @@
+kind: ImageStream
+apiVersion: v1
+metadata:
+  name: statuscope
+
+---
+kind: BuildConfig
+apiVersion: v1
+metadata:
+  name: statuscope
+spec:
+  source:
+    type: Git
+    git:
+      uri: https://github.com/puzzle/statuscope.git
+      ref: v0.0.2
+  strategy:
+    type: "Source"
+    sourceStrategy:
+      from:
+        kind: ImageStreamTag
+        name: statuscope-base:latest
+      forcePull: true
+      incremental: true
+  output:
+    to:
+      kind: ImageStreamTag
+      name: statuscope:latest
+  resources:
+    limits:
+      cpu: 1
+      memory: 2Gi
+    requests:
+      cpu: 100m
+      memory: 300Mi
+
+---
+kind: ImageStream
+apiVersion: v1
+metadata:
+  name: statuscope-base
+spec:
+  tags:
+  - from:
+      kind: DockerImage
+      name: centos/ruby-25-centos7
+    name: latest
+    importPolicy:
+      # OpenShift will regularly check for image updates.
+      scheduled: true

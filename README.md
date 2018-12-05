@@ -1,8 +1,45 @@
-# README
+# statuscope - Heartbeat monitoring service
+
+Statuscope is a monitoring intermediary for push heartbeats via HTTP(S).
+
+You can
+
+* Make sure things run in the expected intervals (e.g. that a backup runs daily).
+* Report failures of things (e.g. a failed backup).
+* Hook up your monitoring/alerting to statuscope to know when heartbeats fail.
+* Easily send heartbeats from the monitoring subjects via curl.
+
+# Deploying to OpenShift
+
+Create the route
+
+    hostname=www.example.com
+
+    cat openshift/route.yml.template | \
+      sed "s#HOSTNAME_PLACEHOLDER#$hostname#" | \
+      oc apply -f -
+
+Create deployment and build
+
+    rake secret > secret
+    oc create secret generic statuscope-rails --from-file=secret_key_base=secret
+    rm secret
+    oc apply -f openshift/
+    oc start-build statuscope
+
+Wait for the build
+
+    oc logs -f bc/statuscope
+
+Wait for the triggered deployment
+
+    oc get pod -w
+
+Aaand it's done.
 
 # Configuring
 
-Use the rails tasks:
+Use the rails tasks inside the statuscope Pods first container:
 
     rails heartbeat:add APPLICATION=my_app INTERVAL_SECONDS=16800
     # => Added. Token: GTWSEcRz4e59dCJKa4AjLvxe
