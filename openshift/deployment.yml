@@ -16,6 +16,43 @@ spec:
     strategy:
       type: Recreate # sqlite database cannot be shared
     spec:
+      initContainers:
+      - image: statuscope:latest
+        imagePullPolicy: Always
+        name: migrate-db
+        env:
+          - name: RAILS_SQLITE_FILE_PATH
+            value: /opt/database/database.sqlite3
+          - name: RAILS_LOG_TO_STDOUT
+            value: "1"
+          - name: RAILS_ENV
+            value: production
+          - name: SECRET_KEY_BASE
+            valueFrom:
+              secretKeyRef:
+                key: secret_key_base
+                name: statuscope-rails
+        command:
+          - bash
+          - -c
+          - rails db:migrate
+        ports:
+        - containerPort: 8080
+          protocol: TCP
+        resources:
+          limits:
+            cpu: 300m
+            memory: 200Mi # Allow bursts for executing rake tasks via oc exec
+          requests:
+            cpu: 50m
+            memory: 100Mi
+        volumeMounts:
+          - name: database
+            mountPath: /opt/database
+      volumes:
+      - name: database
+        persistentVolumeClaim:
+          claimName: statuscope-database
       containers:
       - image: statuscope:latest
         imagePullPolicy: Always
@@ -31,6 +68,8 @@ spec:
             value: /opt/database/database.sqlite3
           - name: RAILS_LOG_TO_STDOUT
             value: "1"
+          - name: RAILS_ENV
+            value: production
           - name: SECRET_KEY_BASE
             valueFrom:
               secretKeyRef:
@@ -42,7 +81,7 @@ spec:
         resources:
           limits:
             cpu: 300m
-            memory: 100Mi
+            memory: 200Mi # Allow bursts for executing rake tasks via oc exec
           requests:
             cpu: 50m
             memory: 100Mi
@@ -59,6 +98,7 @@ spec:
       automatic: true
       containerNames:
         - statuscope
+        - migrate-db
       from:
         kind: ImageStreamTag
         name: statuscope:latest

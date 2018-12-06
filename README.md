@@ -39,7 +39,11 @@ Aaand it's done.
 
 # Configuring
 
-Use the rails tasks inside the statuscope Pods first container:
+Got into statuscope Pods first container
+
+    oc exec -it $(oc get pod | grep Running | awk '{ print $1 }') bash
+
+and use the rails tasks
 
     rails heartbeat:add APPLICATION=my_app INTERVAL_SECONDS=16800
     # => Added. Token: GTWSEcRz4e59dCJKa4AjLvxe
