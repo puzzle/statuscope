@@ -54,6 +54,9 @@ and use the rails tasks
     rails heartbeat:remove APPLICATION=my_app
     # => Removed.
 
+Set `INTERVAL_SECONDS=0` to disable interval checks and just remember the last
+reported state.
+
 # Sending heartbeats via curl
 
 Signal a success with

@@ -42,4 +42,54 @@ RSpec.describe Heartbeat, type: :model do
       end.to change { good_heart.last_signal_ok }.to be_falsy
     end
   end
+
+  describe '#ok?' do
+    let(:last_signal_ok) { true }
+    let(:heartbeat) do
+      Fabricate(:heartbeat,
+                last_signal_ok: last_signal_ok,
+                last_signal_at: last_signal_at,
+                interval_seconds: interval
+               )
+    end
+
+    describe 'with interval' do
+      let(:interval) { 1.hour.to_i }
+
+      describe 'inside interval' do
+        let(:last_signal_at) { Time.zone.now - interval/2 }
+
+        describe 'last signal ok' do
+          it 'is true' do
+            expect(heartbeat.ok?).to be_truthy
+          end
+        end
+
+        describe 'last signal not ok' do
+          let(:last_signal_ok) { false }
+
+          it 'is false' do
+            expect(heartbeat.ok?).to be_falsy
+          end
+        end
+      end
+
+      describe 'outside interval' do
+        let(:last_signal_at) { Time.zone.now - interval*2 }
+
+        it 'is false' do
+          expect(heartbeat.ok?).to be_falsy
+        end
+      end
+    end
+
+    describe 'without interval, last ok years ago' do
+      let(:interval) { 0 }
+      let(:last_signal_at) { 2.years.ago }
+
+      it 'is true' do
+        expect(heartbeat.ok?).to be_truthy
+      end
+    end
+  end
 end
