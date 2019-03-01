@@ -36,6 +36,7 @@ class Heartbeat < ApplicationRecord
 
   def last_signal_recent?
     return true if interval_seconds.zero?
+    return false if last_signal_at.nil?
     Time.zone.now - interval_seconds < last_signal_at
   end
 end
