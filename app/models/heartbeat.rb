@@ -23,6 +23,7 @@ class Heartbeat < ApplicationRecord
       application: application,
       state: ok? ? 'ok' : 'fail',
       last_signal_ok: last_signal_ok?,
+      last_signal_recent: last_signal_recent?,
       check_in: last_signal_at,
       interval: interval_seconds
     }
@@ -30,8 +31,11 @@ class Heartbeat < ApplicationRecord
 
   def ok?
     return false unless last_signal_ok?
-    return true if interval_seconds.zero?
+    last_signal_recent?
+  end
 
+  def last_signal_recent?
+    return true if interval_seconds.zero?
     Time.zone.now - interval_seconds < last_signal_at
   end
 end
