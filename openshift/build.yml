@@ -13,7 +13,7 @@ spec:
     type: Git
     git:
       uri: https://github.com/puzzle/statuscope.git
-      ref: v0.0.4
+      ref: v0.0.5
   strategy:
     type: "Source"
     sourceStrategy:
