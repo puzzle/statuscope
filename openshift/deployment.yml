@@ -36,6 +36,8 @@ spec:
         image: statuscope:latest
         imagePullPolicy: Always
         env: &env
+          - name: TZ
+            value: Europe/Zurich
           - name: RAILS_SQLITE_FILE_PATH
             value: /opt/database/database.sqlite3
           - name: RAILS_LOG_TO_STDOUT

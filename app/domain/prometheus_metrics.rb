@@ -9,12 +9,12 @@ class PrometheusMetrics
 
   class << self
     def render(heartbeats)
-      timestamp = Time.now.to_i
+      timestamp_ms = (Time.now.to_f * 1_000).to_i
 
       HEADER +
-        heartbeats.map { |heartbeat| render_metric(heartbeat, timestamp) }.join(
-          "\n"
-        )
+        heartbeats.map do |heartbeat|
+          render_metric(heartbeat, timestamp_ms)
+        end.join("\n")
     end
 
     private
