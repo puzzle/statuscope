@@ -6,7 +6,8 @@ You can
 
 * Make sure things run in the expected intervals (e.g. that a backup runs daily).
 * Report failures of things (e.g. a failed backup).
-* Hook up your monitoring/alerting to statuscope to know when heartbeats fail.
+* Hook up your Prometheus to statuscope (`/metrics`, see the help given in the response) to know when heartbeats fail.
+* Hook up your monitoring/alerting to statuscope to know when heartbeats fail (deprecated, prefer Prometheus).
 * Easily send heartbeats from the monitoring subjects via curl.
 
 # Deploying to OpenShift

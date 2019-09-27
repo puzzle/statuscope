@@ -6,6 +6,7 @@ Rails.application.routes.draw do
 
   get 'checks/', to: 'checks#index', as: 'checks'
   get 'checks/:application', to: 'checks#show', as: 'check'
+  get '/metrics', to: 'checks#metrics'
 
   get 'healthz', to: 'health#index', as: 'healthz'
 end

@@ -10,4 +10,8 @@ class ChecksController < ApplicationController
     heartbeat = Heartbeat.find_by!(application: params[:application].to_s)
     render json: heartbeat
   end
+
+  def metrics
+    render plain: PrometheusMetrics.render(Heartbeat.all)
+  end
 end
