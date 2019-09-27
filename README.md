@@ -22,7 +22,7 @@ Create the route
 
 Create deployment and build
 
-    rake secret > secret
+    bundle exec rake secret > secret
     oc create secret generic statuscope-rails --from-file=secret_key_base=secret
     rm secret
     oc apply -f openshift/
