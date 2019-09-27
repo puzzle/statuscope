@@ -2,7 +2,9 @@ kind: ImageStream
 apiVersion: v1
 metadata:
   name: statuscope
-
+spec:
+  lookupPolicy:
+    local: true
 ---
 kind: BuildConfig
 apiVersion: v1
@@ -13,7 +15,7 @@ spec:
     type: Git
     git:
       uri: https://github.com/puzzle/statuscope.git
-      ref: v0.0.6
+      ref: master
   strategy:
     type: "Source"
     sourceStrategy:
@@ -33,7 +35,6 @@ spec:
     requests:
       cpu: 100m
       memory: 300Mi
-
 ---
 kind: ImageStream
 apiVersion: v1

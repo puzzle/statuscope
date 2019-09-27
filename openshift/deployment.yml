@@ -1,26 +1,41 @@
 ---
-apiVersion: v1
-kind: DeploymentConfig
+apiVersion: apps/v1beta1
+kind: Deployment
 metadata:
   labels:
     app: statuscope
   name: statuscope
+  annotations:
+    image.openshift.io/triggers: |-
+      [
+        {
+          "from": { "kind":"ImageStreamTag", "name": "statuscope:latest" },
+          "fieldPath": "spec.template.spec.containers[?(@.name==\"statuscope\")].image"
+        },
+        {
+          "from": { "kind":"ImageStreamTag", "name": "rails:release" },
+          "fieldPath": "spec.template.spec.initContainers[?(@.name==\"migrate-db\")].image"
+        }
+      ]
+
 spec:
   replicas: 1
   selector:
-    app: statuscope
+    matchLabels:
+      app: statuscope
+    name: statuscope
+  strategy:
+    type: Recreate
   template:
     metadata:
       labels:
         app: statuscope
-    strategy:
-      type: Recreate # sqlite database cannot be shared
     spec:
       initContainers:
-      - image: statuscope:latest
+      - name: migrate-db
+        image: statuscope:latest
         imagePullPolicy: Always
-        name: migrate-db
-        env:
+        env: &env
           - name: RAILS_SQLITE_FILE_PATH
             value: /opt/database/database.sqlite3
           - name: RAILS_LOG_TO_STDOUT
@@ -36,17 +51,14 @@ spec:
           - bash
           - -c
           - rails db:migrate
-        ports:
-        - containerPort: 8080
-          protocol: TCP
-        resources:
+        resources: &resources
           limits:
             cpu: 300m
             memory: 200Mi # Allow bursts for executing rake tasks via oc exec
           requests:
             cpu: 50m
             memory: 100Mi
-        volumeMounts:
+        volumeMounts: &mounts
           - name: database
             mountPath: /opt/database
       volumes:
@@ -54,7 +66,8 @@ spec:
         persistentVolumeClaim:
           claimName: statuscope-database
       containers:
-      - image: statuscope:latest
+      - name: statuscope
+        image: statuscope:latest
         imagePullPolicy: Always
         livenessProbe:
           httpGet:
@@ -62,52 +75,24 @@ spec:
             port: 8080
           initialDelaySeconds: 30
           timeoutSeconds: 10
-        name: statuscope
-        env:
-          - name: RAILS_SQLITE_FILE_PATH
-            value: /opt/database/database.sqlite3
-          - name: RAILS_LOG_TO_STDOUT
-            value: "1"
-          - name: RAILS_ENV
-            value: production
-          - name: SECRET_KEY_BASE
-            valueFrom:
-              secretKeyRef:
-                key: secret_key_base
-                name: statuscope-rails
+        env: *env
         ports:
-        - containerPort: 8080
+        - name: http
+          containerPort: 8080
           protocol: TCP
-        resources:
-          limits:
-            cpu: 300m
-            memory: 200Mi # Allow bursts for executing rake tasks via oc exec
-          requests:
-            cpu: 50m
-            memory: 100Mi
-        volumeMounts:
-          - name: database
-            mountPath: /opt/database
+        resources: *resources
+        volumeMounts: *mounts
       volumes:
       - name: database
         persistentVolumeClaim:
           claimName: statuscope-database
-  triggers:
-  - type: ImageChange
-    imageChangeParams:
-      automatic: true
-      containerNames:
-        - statuscope
-        - migrate-db
-      from:
-        kind: ImageStreamTag
-        name: statuscope:latest
 ---
 apiVersion: v1
 kind: Service
 metadata:
   labels:
     app: statuscope
+    prometheus-monitoring: 'true'
   name: statuscope
 spec:
   ports:
