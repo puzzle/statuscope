@@ -1,0 +1,16 @@
+apiVersion: monitoring.coreos.com/v1
+kind: ServiceMonitor
+metadata:
+  labels:
+    prometheus: apps
+  name: statuscope-checks
+spec:
+  endpoints:
+  - bearerTokenFile: /var/run/secrets/kubernetes.io/serviceaccount/token
+    interval: 30s
+    port: 8080-tcp
+    scheme: http
+    path: /metrics
+  selector:
+    matchLabels:
+      prometheus-monitoring: 'true'
