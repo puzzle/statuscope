@@ -10,6 +10,12 @@ You can
 * Hook up your monitoring/alerting to statuscope to know when heartbeats fail (deprecated, prefer Prometheus).
 * Easily send heartbeats from the monitoring subjects via curl.
 
+# Releasing a new version
+
+* Add and push a new tag `v1.2.3` for your version (the idea is to use [semantic versioning](https://semver.org/)).
+* Change the BuildConfig named `statuscope`, to use the tag (`.spec.source.git.ref`).
+* Redeploy (see below) and commit.
+
 # Deploying to OpenShift
 
 Create the route
