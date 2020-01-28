@@ -1,9 +1,9 @@
 class PrometheusMetrics
-  OK = 0
-  NOT_OK = 1
+  OK = 1
+  NOT_OK = 2
 
   HEADER = <<~END
-    # HELP statuscope_check_ok Whether a check is ok (0) or failing (1).
+    # HELP statuscope_check_ok Whether a check is ok (1) or failing (2).
     # TYPE statuscope_check_ok gauge
   END
 

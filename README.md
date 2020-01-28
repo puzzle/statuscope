@@ -10,6 +10,10 @@ You can
 * Hook up your monitoring/alerting to statuscope to know when heartbeats fail (deprecated, prefer Prometheus).
 * Easily send heartbeats from the monitoring subjects via curl.
 
+# Running the tests
+
+    bundle exec rake
+
 # Releasing a new version
 
 * Add and push a new tag `v1.2.3` for your version (the idea is to use [semantic versioning](https://semver.org/)).

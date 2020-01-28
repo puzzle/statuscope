@@ -20,15 +20,15 @@ RSpec.describe PrometheusMetrics, type: :model do
     header_1, header_2, good_line, bad_line = lines
 
     expect(header_1).to eq(
-      '# HELP statuscope_check_ok Whether a check is ok (0) or failing (1).'
+      '# HELP statuscope_check_ok Whether a check is ok (1) or failing (2).'
     )
     expect(header_2).to eq('# TYPE statuscope_check_ok gauge')
 
     expect(good_line).to match(
-      /statuscope_check_ok{application="good_app"} 0 \d+$/
+      /statuscope_check_ok{application="good_app"} 1 \d+$/
     )
     expect(bad_line).to match(
-      /statuscope_check_ok{application="bad_app"} 1 \d+$/
+      /statuscope_check_ok{application="bad_app"} 2 \d+$/
     )
   end
 end
