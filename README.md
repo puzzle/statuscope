@@ -16,9 +16,9 @@ You can
 
 # Releasing a new version
 
-* Add and push a new tag `v1.2.3` for your version (the idea is to use [semantic versioning](https://semver.org/)).
-* Change the BuildConfig named `statuscope`, to use the tag (`.spec.source.git.ref`).
-* Redeploy (see below) and commit.
+* Define a new version tag `v1.2.3` (the idea is to use [semantic versioning](https://semver.org/)).
+* Change the BuildConfig named `statuscope`, to use the tag you're adding in the next step (`.spec.source.git.ref`).
+* Commit, add the tag, push it and redeply (see below).
 
 # Deploying to OpenShift
 
