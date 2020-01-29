@@ -13,7 +13,7 @@ metadata:
           "fieldPath": "spec.template.spec.containers[?(@.name==\"statuscope\")].image"
         },
         {
-          "from": { "kind":"ImageStreamTag", "name": "rails:release" },
+          "from": { "kind":"ImageStreamTag", "name": "statuscope:latest" },
           "fieldPath": "spec.template.spec.initContainers[?(@.name==\"migrate-db\")].image"
         }
       ]
