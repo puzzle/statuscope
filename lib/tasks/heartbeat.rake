@@ -1,12 +1,13 @@
+# frozen_string_literal: true
+
 namespace :heartbeat do
   def param!(name, transform: nil, default: nil)
     value = ENV[name] || default
 
-    if value.nil?
-      raise ArgumentError, "Required variable #{name} not set."
-    end
+    raise ArgumentError, "Required variable #{name} not set." if value.nil?
 
     return value if transform.nil?
+
     transform.call(value)
   end
 
@@ -47,6 +48,6 @@ namespace :heartbeat do
 
     h.destroy!
 
-    puts "Removed."
+    puts 'Removed.'
   end
 end

@@ -12,23 +12,16 @@ RSpec.describe PrometheusMetrics, type: :model do
   end
 
   it '.render' do
-    lines =
-      PrometheusMetrics.render([good_heart, broken_heart]).split("\n")
+    lines = PrometheusMetrics.render([good_heart, broken_heart]).split("\n")
 
     expect(lines.count).to eq(4)
 
-    header_1, header_2, good_line, bad_line = lines
+    hdr_help, hdr_type, good_line, bad_line = lines
 
-    expect(header_1).to eq(
-      '# HELP statuscope_check_ok Whether a check is ok (1) or failing (2).'
-    )
-    expect(header_2).to eq('# TYPE statuscope_check_ok gauge')
+    expect(hdr_help).to eq('# HELP statuscope_check_ok Whether a check is ok (1) or failing (2).')
+    expect(hdr_type).to eq('# TYPE statuscope_check_ok gauge')
 
-    expect(good_line).to match(
-      /statuscope_check_ok{application="good_app"} 1 \d+$/
-    )
-    expect(bad_line).to match(
-      /statuscope_check_ok{application="bad_app"} 2 \d+$/
-    )
+    expect(good_line).to match(/statuscope_check_ok{application="good_app"} 1 \d+$/)
+    expect(bad_line).to match(/statuscope_check_ok{application="bad_app"} 2 \d+$/)
   end
 end

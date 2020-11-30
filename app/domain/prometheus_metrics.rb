@@ -1,11 +1,14 @@
+# frozen_string_literal: true
+
+# Display current heartbeat-states in prometheus format
 class PrometheusMetrics
   OK = 1
   NOT_OK = 2
 
-  HEADER = <<~END
+  HEADER = <<~TEXT
     # HELP statuscope_check_ok Whether a check is ok (1) or failing (2).
     # TYPE statuscope_check_ok gauge
-  END
+  TEXT
 
   class << self
     def render(heartbeats)

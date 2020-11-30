@@ -18,7 +18,7 @@ class Heartbeat < ApplicationRecord
     )
   end
 
-  def as_json(req)
+  def as_json(_req)
     {
       application: application,
       state: ok? ? 'ok' : 'fail',
@@ -31,12 +31,14 @@ class Heartbeat < ApplicationRecord
 
   def ok?
     return false unless last_signal_ok?
+
     last_signal_recent?
   end
 
   def last_signal_recent?
     return true if interval_seconds.zero?
     return false if last_signal_at.nil?
+
     Time.zone.now - interval_seconds < last_signal_at
   end
 end

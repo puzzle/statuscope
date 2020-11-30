@@ -49,15 +49,14 @@ RSpec.describe Heartbeat, type: :model do
       Fabricate(:heartbeat,
                 last_signal_ok: last_signal_ok,
                 last_signal_at: last_signal_at,
-                interval_seconds: interval
-               )
+                interval_seconds: interval)
     end
 
     describe 'with interval' do
       let(:interval) { 1.hour.to_i }
 
       describe 'inside interval' do
-        let(:last_signal_at) { Time.zone.now - interval/2 }
+        let(:last_signal_at) { Time.zone.now - interval / 2 }
 
         describe 'last signal ok' do
           it 'is true' do
@@ -75,7 +74,7 @@ RSpec.describe Heartbeat, type: :model do
       end
 
       describe 'outside interval' do
-        let(:last_signal_at) { Time.zone.now - interval*2 }
+        let(:last_signal_at) { Time.zone.now - interval * 2 }
 
         it 'is false' do
           expect(heartbeat.ok?).to be_falsy
