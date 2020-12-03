@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_11_23_164429) do
+ActiveRecord::Schema.define(version: 2020_12_03_112953) do
 
   create_table "heartbeats", force: :cascade do |t|
     t.string "application"
@@ -20,8 +20,8 @@ ActiveRecord::Schema.define(version: 2018_11_23_164429) do
     t.boolean "last_signal_ok"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["application"], name: "index_heartbeats_on_application", unique: true
-    t.index ["token"], name: "index_heartbeats_on_token", unique: true
+    t.string "team"
+    t.index ["application", "token"], name: "index_heartbeats_on_application_and_token", unique: true
   end
 
 end

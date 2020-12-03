@@ -56,7 +56,7 @@ Got into statuscope Pods first container
 
 and use the rails tasks
 
-    rails heartbeat:add APPLICATION=my_app INTERVAL_SECONDS=16800
+    rails heartbeat:add APPLICATION=my_app INTERVAL_SECONDS=16800 TEAM=puzzle
     # => Added. Token: GTWSEcRz4e59dCJKa4AjLvxe
 
     rails heartbeat:token APPLICATION=my_app

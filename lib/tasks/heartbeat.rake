@@ -14,10 +14,12 @@ namespace :heartbeat do
   task add: :environment do
     application = param!('APPLICATION')
     interval_seconds = param!('INTERVAL_SECONDS')
+    team = param!('TEAM')
 
     h = Heartbeat.create!(
       application: application,
-      interval_seconds: interval_seconds
+      interval_seconds: interval_seconds,
+      team: team
     )
 
     puts "Added. Token: #{h.token}"
