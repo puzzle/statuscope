@@ -11,6 +11,7 @@ class CreateHeartbeats < ActiveRecord::Migration[5.2] # :nodoc:
 
       t.timestamps
     end
+
     add_index :heartbeats, :token, unique: true
     add_index :heartbeats, :application, unique: true
   end
