@@ -1,0 +1,18 @@
+---
+apiVersion: monitoring.coreos.com/v1
+kind: PrometheusRule
+metadata:
+  labels:
+    prometheus: apps
+  name: statuscope-checks
+spec:
+  groups:
+  - name: pitc-statuscope-prod_alerts
+    rules:
+    - alert: pitc-statuscope-prod_outdated
+      annotations:
+        message: Der Check {{ $labels.application }} ist veraltet oder fehlgeschlagen.
+      expr: statuscope_check_ok{namespace="pitc-statuscope-prod"} > 1
+      labels:
+        rocketchat_channel: '#devruby-alerts'
+        severity: critical
