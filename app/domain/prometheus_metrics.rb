@@ -25,7 +25,9 @@ class PrometheusMetrics
     def render_metric(heartbeat, timestamp)
       value = heartbeat.ok? ? OK : NOT_OK
       app = heartbeat.application
-      "statuscope_check_ok{application=\"#{app}\"} #{value} #{timestamp}"
+      team = heartbeat.team
+
+      %(statuscope_check_ok{application="#{app}",team="#{team}"} #{value} #{timestamp})
     end
   end
 end

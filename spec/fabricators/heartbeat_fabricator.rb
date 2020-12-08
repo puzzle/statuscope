@@ -6,4 +6,5 @@ Fabricator(:heartbeat) do
   interval_seconds 12.hours.to_i
   last_signal_at   1.hour.ago
   last_signal_ok   true
+  team             'hitobito'
 end
