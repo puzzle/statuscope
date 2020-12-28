@@ -11,8 +11,9 @@ spec:
     rules:
     - alert: pitc-statuscope-prod_outdated
       annotations:
-        message: Der Check {{ $labels.application }} ist veraltet oder fehlgeschlagen.
+        summary: Der Check {{ $labels.application }} ist veraltet oder fehlgeschlagen.
       expr: statuscope_check_ok{namespace="pitc-statuscope-prod"} > 1
       labels:
         rocketchat_channel: '#devruby-alerts'
+        team: devruby
         severity: critical
