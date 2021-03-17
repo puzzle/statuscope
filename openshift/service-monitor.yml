@@ -6,7 +6,9 @@ metadata:
   name: statuscope-checks
 spec:
   endpoints:
-  - bearerTokenFile: /var/run/secrets/kubernetes.io/serviceaccount/token
+  - bearerTokenSecret:
+      name: statuscope-rails
+      key: token
     interval: 30s
     port: 8080-tcp
     scheme: http
