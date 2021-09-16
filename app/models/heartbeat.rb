@@ -21,6 +21,7 @@ class Heartbeat < ApplicationRecord
   def as_json(_req)
     {
       application: application,
+      team: team,
       state: ok? ? 'ok' : 'fail',
       last_signal_ok: last_signal_ok?,
       last_signal_recent: last_signal_recent?,
