@@ -21,7 +21,7 @@ RSpec.describe PrometheusMetrics, type: :model do
     expect(hdr_help).to eq('# HELP statuscope_check_ok Whether a check is ok (1) or failing (2).')
     expect(hdr_type).to eq('# TYPE statuscope_check_ok gauge')
 
-    expect(good_line).to match(/statuscope_check_ok{instance="good_app",team="puzzle"} 1 \d+$/)
-    expect(bad_line).to match(/statuscope_check_ok{instance="bad_app",team="careless"} 2 \d+$/)
+    expect(good_line).to match(/statuscope_check_ok{application="good_app",team="puzzle"} 1 \d+$/)
+    expect(bad_line).to match(/statuscope_check_ok{application="bad_app",team="careless"} 2 \d+$/)
   end
 end

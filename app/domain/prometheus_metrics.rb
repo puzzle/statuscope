@@ -27,7 +27,7 @@ class PrometheusMetrics
       app = heartbeat.application
       team = heartbeat.team
 
-      %(statuscope_check_ok{instance="#{app}",team="#{team}"} #{value} #{timestamp})
+      %(statuscope_check_ok{application="#{app}",team="#{team}"} #{value} #{timestamp})
     end
   end
 end
