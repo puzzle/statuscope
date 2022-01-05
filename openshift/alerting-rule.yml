@@ -15,5 +15,6 @@ spec:
       expr: statuscope_check_ok{namespace="pitc-statuscope-prod"} > 1
       labels:
         rocketchat_channel: '#devruby-alerts'
-        team: devruby
         severity: critical
+        instance: '{{ $labels.application }}'
+
