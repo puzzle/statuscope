@@ -2,6 +2,8 @@
 kind: Route
 metadata:
   name: HOSTNAME_PLACEHOLDER
+  labels:
+    public: "true"
 spec:
   host: HOSTNAME_PLACEHOLDER
   tls:
