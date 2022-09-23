@@ -1,0 +1,59 @@
+name: "Notify Statuscope"
+description: "Notify statuscope of the Job-Result"
+
+inputs:
+  repository:
+    description: "Repository that the action is being run in"
+    required: true
+  test_result:
+    description: "Result of the Test-Run to report to statuscope"
+    required: true
+  HEARTBEAT_URL:
+    description: "URL to heartbeat-application, e.g. https://status.example.com"
+    required: true
+  HEARTBEAT_TOKEN:
+    description: "Token provided by statuscope"
+    required: true
+
+# jobs:
+#   notify-statuscope:
+#     runs-on: 'ubuntu-latest'
+#     env:
+#       HEARTBEAT_URL: ${{ secrets.HEARTBEAT_URL }}
+#       HEARTBEAT_TOKEN: ${{ secrets.HEARTBEAT_TOKEN }}
+
+runs:
+  using: composite
+  steps:
+    - name: 'Check Configuration'
+      shell: bash
+      run: |
+        HEARTBEAT_APPLICATION="$(basename "${inputs.repository}-tests" | tr _ -)"
+        echo "HEARTBEAT_APPLICATION=${HEARTBEAT_APPLICATION}" >> $GITHUB_ENV
+        echo "HEARTBEAT_APPLICATION is $HEARTBEAT_APPLICATION"
+        (
+        [[ "$HEARTBEAT_URL" != '' ]] &&
+        [[ "$HEARTBEAT_TOKEN" != '' ]] &&
+        echo "HEARTBEAT_URL and HEARTBEAT_TOKEN are present."
+        ) || (
+        echo "Please ensure that you have HEARTBEAT_URL and HEARTBEAT_TOKEN set as secrets"
+        exit 1
+        )
+
+    - name: 'Send success'
+      shell: bash
+      if: ${{ inputs.test_result == true }}
+      run: >
+        curl -v $HEARTBEAT_URL/signal \
+          -d application=$HEARTBEAT_APPLICATION \
+          -d token=$HEARTBEAT_TOKEN \
+          -d status=ok | jq .
+
+    - name: 'Send failure'
+      shell: bash
+      if: ${{ input.test_result == false }}
+      run: >
+        curl -v $HEARTBEAT_URL/signal \
+          -d application=$HEARTBEAT_APPLICATION \
+          -d token=$HEARTBEAT_TOKEN \
+          -d status=fail | jq .
