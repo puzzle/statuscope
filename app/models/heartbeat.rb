@@ -31,13 +31,10 @@ class Heartbeat < ApplicationRecord
   end
 
   def status
+    return 'fail'     unless last_signal_ok?
     return 'outdated' unless last_signal_recent?
 
-    if last_signal_ok?
-      'ok'
-    else
-      'fail'
-    end
+    'ok'
   end
 
   def ok?

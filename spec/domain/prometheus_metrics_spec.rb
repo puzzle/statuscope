@@ -24,12 +24,12 @@ RSpec.describe PrometheusMetrics, type: :model do
     hdr_help, hdr_type, good_line, bad_line, old_line = lines
 
     expect(hdr_help).to eq(
-      '# HELP statuscope_check_ok Whether a check is ok (1), failing (2) or outdated (3).'
+      '# HELP statuscope_check_ok Whether a check is ok (1), outdated (2) or failing (3).'
     )
     expect(hdr_type).to eq('# TYPE statuscope_check_ok gauge')
 
     expect(good_line).to match(/statuscope_check_ok{application="good_app",team="puzzle"} 1 \d+$/)
-    expect(bad_line).to match(/statuscope_check_ok{application="bad_app",team="careless"} 2 \d+$/)
-    expect(old_line).to match(/statuscope_check_ok{application="old_app",team="nakatomi"} 3 \d+$/)
+    expect(bad_line).to match(/statuscope_check_ok{application="bad_app",team="careless"} 3 \d+$/)
+    expect(old_line).to match(/statuscope_check_ok{application="old_app",team="nakatomi"} 2 \d+$/)
   end
 end
