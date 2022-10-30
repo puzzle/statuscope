@@ -3,10 +3,11 @@
 # Display current heartbeat-states in prometheus format
 class PrometheusMetrics
   OK = 1
-  NOT_OK = 2
+  OUTDATED = 2
+  FAILED = 3
 
   HEADER = <<~TEXT
-    # HELP statuscope_check_ok Whether a check is ok (1) or failing (2).
+    # HELP statuscope_check_ok Whether a check is ok (1), outdated (2) or failing (3).
     # TYPE statuscope_check_ok gauge
   TEXT
 
@@ -23,7 +24,14 @@ class PrometheusMetrics
     private
 
     def render_metric(heartbeat, timestamp)
-      value = heartbeat.ok? ? OK : NOT_OK
+      value = case heartbeat.status
+              when 'ok' then OK
+              when 'outdated' then OUTDATED
+              when 'fail' then FAILED
+              else
+                FAILED
+              end
+
       app = heartbeat.application
       team = heartbeat.team
 

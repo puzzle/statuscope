@@ -22,12 +22,19 @@ class Heartbeat < ApplicationRecord
     {
       application: application,
       team: team,
-      state: ok? ? 'ok' : 'fail',
+      state: status,
       last_signal_ok: last_signal_ok?,
       last_signal_recent: last_signal_recent?,
       check_in: last_signal_at,
       interval: interval_seconds
     }
+  end
+
+  def status
+    return 'fail'     unless last_signal_ok?
+    return 'outdated' unless last_signal_recent?
+
+    'ok'
   end
 
   def ok?

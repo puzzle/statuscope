@@ -9,12 +9,19 @@ spec:
   groups:
   - name: pitc-statuscope-prod_alerts
     rules:
-    - alert: pitc-statuscope-prod_outdated
+    - alert: statuscope outdated
       annotations:
-        summary: Der Check {{ $labels.application }} ist veraltet oder fehlgeschlagen.
-      expr: statuscope_check_ok{namespace="pitc-statuscope-prod"} > 1
+        summary: Der Check {{ $labels.application }} ist veraltet.
+      expr: statuscope_check_ok{namespace="pitc-statuscope-prod"} = 3
       labels:
         rocketchat_channel: '#devruby-alerts'
         severity: critical
         instance: '{{ $labels.application }}'
-
+    - alert: statuscope fail
+      annotations:
+        summary: Der Check {{ $labels.application }} ist fehlgeschlagen.
+      expr: statuscope_check_ok{namespace="pitc-statuscope-prod"} = 2
+      labels:
+        rocketchat_channel: '#devruby-alerts'
+        severity: critical
+        instance: '{{ $labels.application }}'
