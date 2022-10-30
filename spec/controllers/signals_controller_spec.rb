@@ -45,7 +45,7 @@ RSpec.describe SignalsController, type: :controller do
       it 'renders a JSON response with the updated heartbeat' do
         post :create, params: ok_signal
         expect(response).to have_http_status(:created)
-        expect(response.content_type).to eq('application/json')
+        expect(response.content_type).to eq('application/json; charset=utf-8')
       end
     end
 
