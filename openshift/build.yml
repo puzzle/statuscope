@@ -11,19 +11,7 @@ apiVersion: v1
 metadata:
   name: statuscope
 spec:
-  source:
-    type: Git
-    git:
-      uri: https://github.com/puzzle/statuscope.git
-      ref: v1.2.1
-  strategy:
-    type: "Source"
-    sourceStrategy:
-      from:
-        kind: ImageStreamTag
-        name: statuscope-base:latest
-      forcePull: true
-      incremental: true
+  successfulBuildsHistoryLimit: 3
   output:
     to:
       kind: ImageStreamTag
@@ -34,18 +22,41 @@ spec:
       memory: 2Gi
     requests:
       cpu: 100m
-      memory: 300Mi
+      memory: 128Mi
+  source:
+    type: Git
+    git:
+      uri: https://github.com/puzzle/statuscope.git
+      ref: v1.2.1
+  strategy:
+    type: Docker
+    dockerStrategy:
+      dockerfilePath: Dockerfile
+      from:
+        kind: ImageStreamTag
+        name: ruby:3.0
+      buildArgs:
+      - name: BUILD_PACKAGES
+        value: "sqlite3 libsqlite3-dev build-essential"
+      - name: RUN_PACKAGES
+
+
 ---
-kind: ImageStream
 apiVersion: v1
+kind: ImageStream
 metadata:
-  name: statuscope-base
+  name: ruby-upstream
+  annotations:
+    puzzle.ch/purpose: Upstream image change trigger
 spec:
+  dockerImageRepository: docker.io
   tags:
-  - from:
-      kind: DockerImage
-      name: centos/ruby-25-centos7
-    name: latest
-    importPolicy:
-      # OpenShift will regularly check for image updates.
-      scheduled: true
+    - from:
+        kind: DockerImage
+        name: docker.io/ruby:3.0
+      importPolicy:
+        scheduled: true
+      name: latest
+  lookupPolicy:
+    local: true
+...
