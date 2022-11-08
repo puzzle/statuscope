@@ -71,7 +71,7 @@ SHELL ["/bin/bash", "-c"]
 RUN adduser --disabled-password --uid 1001 --gid 0 --gecos "" app
 
 ARG BUNDLE_WITHOUT='development:metrics:test'
-ARG RUN_PACKAGES="git pkg-config"
+ARG RUN_PACKAGES
 
 ENV RAILS_ENV=production \
     RAILS_DB_ADAPTER=sqlite3
@@ -80,7 +80,7 @@ ENV RAILS_ENV=production \
 RUN    apt-get update \
     && apt-get upgrade -y \
     && apt-get install -y ${RUN_PACKAGES} \
-       vim-tiny curl less
+       vim curl less
 
 # Copy deployment ready source code from build
 COPY --from=build /app-src /app-src
@@ -91,6 +91,7 @@ RUN    chgrp -R 0 /app-src \
     && chmod -R u+w,g=u /app-src
 
 ENV HOME=/app-src
+ENV PATH=/app-src/bin:$PATH
 
 # Use cached gems
 RUN    bundle config set --local deployment 'true' \
