@@ -54,7 +54,10 @@ RUN bash -vxc "${BUILD_SCRIPT:-"echo 'no BUILD_SCRIPT provided'"}"
 
 # TODO: Save artifacts
 
-RUN rm -rf vendor/cache/ .git spec/ node_modules/
+RUN rm -rf vendor/cache/ .git spec/ node_modules/ tmp/ \
+           db/*.sqlite3 \
+           openshift/ \
+           log/*.log
 
 
 #################################
