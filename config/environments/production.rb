@@ -68,4 +68,7 @@ Rails.application.configure do
 
   # Do not dump schema after migrations.
   config.active_record.dump_schema_after_migration = false
+
+  # SQLite is production-ready AND a perfect fit for the project
+  config.active_record.sqlite3_production_warning = false
 end
