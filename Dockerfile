@@ -74,7 +74,7 @@ SHELL ["/bin/bash", "-c"]
 RUN adduser --disabled-password --uid 1001 --gid 0 --gecos "" app
 
 ARG BUNDLE_WITHOUT='development:metrics:test'
-ARG RUN_PACKAGES
+ARG RUN_PACKAGES='sqlite3'
 
 ENV RAILS_ENV=production \
     RAILS_DB_ADAPTER=sqlite3
