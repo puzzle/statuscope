@@ -12,7 +12,7 @@ spec:
     - alert: statuscope outdated
       annotations:
         summary: Der Check {{ $labels.application }} ist veraltet.
-      expr: statuscope_check_ok{namespace="pitc-statuscope-prod"} = 3
+      expr: statuscope_check_ok{namespace="pitc-statuscope-prod"} == 3
       labels:
         rocketchat_channel: '#devruby-alerts'
         severity: critical
@@ -20,7 +20,7 @@ spec:
     - alert: statuscope fail
       annotations:
         summary: Der Check {{ $labels.application }} ist fehlgeschlagen.
-      expr: statuscope_check_ok{namespace="pitc-statuscope-prod"} = 2
+      expr: statuscope_check_ok{namespace="pitc-statuscope-prod"} == 2
       labels:
         rocketchat_channel: '#devruby-alerts'
         severity: critical
