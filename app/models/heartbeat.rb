@@ -19,7 +19,6 @@ class Heartbeat < ApplicationRecord
   end
 
   def as_json(_req = nil)
-    require 'pry'; binding.pry
     {
       application: application,
       team: team,
