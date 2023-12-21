@@ -103,4 +103,4 @@ RUN    bundle config set --local deployment 'true' \
 
 USER 1001
 
-CMD ["bundle", "exec", "puma", "-t", "8"]
+CMD ["bundle", "exec", "puma", "-t", "8", "-p", "8080"]
