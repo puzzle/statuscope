@@ -6,11 +6,9 @@ gem 'rails'
 
 gem 'sqlite3' # database
 
-gem 'puma', '~> 4.3' # app server
+gem 'puma' # app server
 
 # gem 'jbuilder', '~> 2.5' # Build JSON APIs with ease. Read more: https://github.com/rails/jbuilder
-
-gem 'bootsnap', '>= 1.1.0', require: false # Reduces boot times through caching
 
 group :development, :test do
   gem 'pry-byebug' # integrate proper debugging

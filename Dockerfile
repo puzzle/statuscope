@@ -10,7 +10,7 @@ SHELL ["/bin/bash", "-c"]
 # Use root user
 USER root
 
-ARG BUNDLER_VERSION=2.3.23
+ARG BUNDLER_VERSION=2.5.1
 
 ARG PRE_INSTALL_SCRIPT
 ARG BUILD_PACKAGES="sqlite3 libsqlite3-dev build-essential"
