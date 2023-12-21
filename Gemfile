@@ -10,6 +10,8 @@ gem 'puma' # app server
 
 # gem 'jbuilder', '~> 2.5' # Build JSON APIs with ease. Read more: https://github.com/rails/jbuilder
 
+gem 'bootsnap', require: false # Reduces boot times through caching
+
 group :development, :test do
   gem 'pry-byebug' # integrate proper debugging
   gem 'pry-rails'  # replace IRB
