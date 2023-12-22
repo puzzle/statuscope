@@ -18,7 +18,7 @@ class Heartbeat < ApplicationRecord
     )
   end
 
-  def as_json(_req)
+  def as_json(_req = nil)
     {
       application: application,
       team: team,

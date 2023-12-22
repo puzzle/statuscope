@@ -30,21 +30,16 @@ Create the route
       sed "s#HOSTNAME_PLACEHOLDER#$hostname#" | \
       oc apply -f -
 
-Create deployment and build
+Create deployment
 
     bundle exec rake secret > secret
     oc create secret generic statuscope-rails --from-file=secret_key_base=secret
     rm secret
     oc apply -f openshift/
-    oc start-build statuscope
 
-Wait for the build
+Tag the image from your relevant registry that the GitHub build pushed it to
 
-    oc logs -f bc/statuscope
-
-Wait for the triggered deployment
-
-    oc get pod -w
+    oc tag your-registry.ch/your-namespace/statuscope:latest statuscope:latest
 
 Aaand it's done.
 

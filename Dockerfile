@@ -2,7 +2,7 @@
 #          Build Stage          #
 #################################
 
-FROM ruby:3.0 AS build
+FROM ruby:3.2 AS build
 
 # Set build shell
 SHELL ["/bin/bash", "-c"]
@@ -10,7 +10,7 @@ SHELL ["/bin/bash", "-c"]
 # Use root user
 USER root
 
-ARG BUNDLER_VERSION=2.3.23
+ARG BUNDLER_VERSION=2.5.1
 
 ARG PRE_INSTALL_SCRIPT
 ARG BUILD_PACKAGES="sqlite3 libsqlite3-dev build-essential"
@@ -65,7 +65,7 @@ RUN rm -rf vendor/cache/ .git spec/ node_modules/ tmp/ \
 #################################
 
 # This image will be replaced by Openshift
-FROM ruby:3.0-slim AS app
+FROM ruby:3.2-slim AS app
 
 # Set runtime shell
 SHELL ["/bin/bash", "-c"]
@@ -74,7 +74,7 @@ SHELL ["/bin/bash", "-c"]
 RUN adduser --disabled-password --uid 1001 --gid 0 --gecos "" app
 
 ARG BUNDLE_WITHOUT='development:metrics:test'
-ARG RUN_PACKAGES
+ARG RUN_PACKAGES='sqlite3'
 
 ENV RAILS_ENV=production \
     RAILS_DB_ADAPTER=sqlite3
@@ -103,4 +103,4 @@ RUN    bundle config set --local deployment 'true' \
 
 USER 1001
 
-CMD ["bundle", "exec", "puma", "-t", "8"]
+CMD ["bundle", "exec", "puma", "-t", "8", "-p", "8080"]
