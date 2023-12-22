@@ -1,5 +1,5 @@
 ---
-apiVersion: apps/v1beta1
+apiVersion: apps/v1
 kind: Deployment
 metadata:
   labels:
@@ -83,10 +83,6 @@ spec:
           protocol: TCP
         resources: *resources
         volumeMounts: *mounts
-      volumes:
-      - name: database
-        persistentVolumeClaim:
-          claimName: statuscope-database
 ---
 apiVersion: v1
 kind: Service
