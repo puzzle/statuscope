@@ -24,6 +24,7 @@ module Statuscope
   class Application < Rails::Application # :nodoc:
     # Initialize configuration defaults for originally generated Rails version.
     config.load_defaults 5.2
+    config.active_support.cache_format_version = 7.0 # silence deprecation warning
 
     config.generators do |g|
       g.test_framework :rspec
