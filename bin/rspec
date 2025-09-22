@@ -1,0 +1,8 @@
+#!/usr/bin/env bash
+
+export RAILS_ENV=test
+
+# ensure that schema.rb is current for the test-db to load
+# bundle exec rake db:migrate
+
+bundle exec rspec $@
