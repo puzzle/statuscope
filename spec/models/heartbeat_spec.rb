@@ -56,7 +56,7 @@ RSpec.describe Heartbeat, type: :model do
       let(:interval) { 1.hour.to_i }
 
       describe 'inside interval' do
-        let(:last_signal_at) { Time.zone.now - interval / 2 }
+        let(:last_signal_at) { Time.zone.now - (interval / 2) }
 
         describe 'last signal ok' do
           it 'is ok' do
@@ -74,7 +74,7 @@ RSpec.describe Heartbeat, type: :model do
       end
 
       describe 'outside interval' do
-        let(:last_signal_at) { Time.zone.now - interval * 2 }
+        let(:last_signal_at) { Time.zone.now - (interval * 2) }
 
         it 'is outdated' do
           expect(heartbeat.status).to eql 'outdated'
@@ -115,7 +115,7 @@ RSpec.describe Heartbeat, type: :model do
       let(:interval) { 1.hour.to_i }
 
       describe 'inside interval' do
-        let(:last_signal_at) { Time.zone.now - interval / 2 }
+        let(:last_signal_at) { Time.zone.now - (interval / 2) }
 
         describe 'last signal ok' do
           it 'is true' do
@@ -133,7 +133,7 @@ RSpec.describe Heartbeat, type: :model do
       end
 
       describe 'outside interval' do
-        let(:last_signal_at) { Time.zone.now - interval * 2 }
+        let(:last_signal_at) { Time.zone.now - (interval * 2) }
 
         it 'is false' do
           expect(heartbeat.ok?).to be_falsy

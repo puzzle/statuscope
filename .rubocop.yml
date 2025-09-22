@@ -1,5 +1,6 @@
 AllCops:
   DisplayCopNames: true
+  NewCops: enable
   Exclude:
     - db/schema.rb
     - config/**/*
@@ -13,7 +14,7 @@ Metrics/BlockLength:
     - spec/**/*
     - lib/tasks/*.rake
 
-Metrics/LineLength:
+Layout/LineLength:
   Max: 100
 
 Style/Documentation:

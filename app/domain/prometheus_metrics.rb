@@ -27,9 +27,7 @@ class PrometheusMetrics
       value = case heartbeat.status
               when 'ok' then OK
               when 'outdated' then OUTDATED
-              when 'fail' then FAILED
-              else
-                FAILED
+              else FAILED # includes 'fail' => FAILED
               end
 
       app = heartbeat.application
