@@ -24,4 +24,5 @@ end
 
 group :development do
   gem 'listen'
+  gem 'tidewave'
 end
