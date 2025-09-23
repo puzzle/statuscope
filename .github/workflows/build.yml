@@ -19,12 +19,12 @@ jobs:
         name: Login to Puzzle Registry
         uses: docker/login-action@v3
         with:
-          registry: registry.puzzle.ch
-          username: ${{ secrets.QUAY_USERNAME }}
-          password: ${{ secrets.QUAY_ROBOT_TOKEN }}
+          registry: harbor.puzzle.ch
+          username: ${{ secrets.REGISTRY_USERNAME }}
+          password: ${{ secrets.REGISTRY_ROBOT_TOKEN }}
       -
         name: Build and push
         uses: docker/build-push-action@v5
         with:
           push: true
-          tags: registry.puzzle.ch/ruby_ops/statuscope:latest
+          tags: harbor.puzzle.ch/pitc-ruby-private/statuscope:latest
