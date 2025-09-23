@@ -170,7 +170,7 @@ WORKDIR /app-src
 
 # Create pids folder for puma and
 # set group permissions to folders that need write permissions
-RUN mkdir -p tmp/pids \
+RUN mkdir -p tmp/pids log \
     && chgrp 0 /app-src \
     && chgrp -R 0 /app-src/tmp \
     && chgrp -R 0 /app-src/log \
