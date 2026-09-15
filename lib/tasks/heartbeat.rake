@@ -53,3 +53,56 @@ namespace :heartbeat do
     puts 'Removed.'
   end
 end
+
+namespace :team_token do
+  task add: :environment do
+    team = param!('TEAM')
+
+    t = TeamToken.create!(team: team)
+
+    puts "Added. Token: #{t.token}"
+  end
+
+  task token: :environment do
+    team = param!('TEAM')
+
+    t = TeamToken.find_by_team(team)
+
+    if t.nil?
+      puts "No token configured for team #{team.inspect}"
+      exit 1
+    end
+
+    puts "Token: #{t.token}"
+  end
+
+  task rotate: :environment do
+    team = param!('TEAM')
+
+    t = TeamToken.find_by_team(team)
+
+    if t.nil?
+      puts "No token configured for team #{team.inspect}"
+      exit 1
+    end
+
+    t.regenerate_token
+
+    puts "Rotated. Token: #{t.token}"
+  end
+
+  task remove: :environment do
+    team = param!('TEAM')
+
+    t = TeamToken.find_by_team(team)
+
+    if t.nil?
+      puts "No token configured for team #{team.inspect}"
+      exit 1
+    end
+
+    t.destroy!
+
+    puts 'Removed.'
+  end
+end

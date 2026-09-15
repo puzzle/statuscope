@@ -11,6 +11,28 @@ RSpec.describe Heartbeat, type: :model do
     Fabricate(:heartbeat, last_signal_ok: false)
   end
 
+  describe '.authenticate!' do
+    let!(:heartbeat) do
+      Fabricate(:heartbeat, application: 'hitobito-tests', token: 'owntoken', team: 'hitobito')
+    end
+
+    def authenticate(application, token)
+      Heartbeat.authenticate!(application: application, token: token)
+    end
+
+    it 'accepts the token of the heartbeat itself' do
+      expect(authenticate('hitobito-tests', 'owntoken')).to eql heartbeat
+    end
+
+    describe 'with a team token' do
+      let!(:team_token) { Fabricate(:team_token, team: 'hitobito', token: 'teamtoken') }
+
+      it 'accepts the token of the team' do
+        expect(authenticate('hitobito-tests', 'teamtoken')).to eql heartbeat
+      end
+    end
+  end
+
   describe '#register' do
     it 'updates the timestamp for successes' do
       expect do
