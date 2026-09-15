@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2020_12_03_112953) do
+ActiveRecord::Schema[7.1].define(version: 2026_09_15_140436) do
   create_table "heartbeats", force: :cascade do |t|
     t.string "application"
     t.string "token"
@@ -22,6 +22,15 @@ ActiveRecord::Schema[7.1].define(version: 2020_12_03_112953) do
     t.string "team"
     t.index ["application"], name: "index_heartbeats_on_application", unique: true
     t.index ["token"], name: "index_heartbeats_on_token", unique: true
+  end
+
+  create_table "team_tokens", force: :cascade do |t|
+    t.string "team", null: false
+    t.string "token", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["team"], name: "index_team_tokens_on_team", unique: true
+    t.index ["token"], name: "index_team_tokens_on_token", unique: true
   end
 
 end

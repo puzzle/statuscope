@@ -11,6 +11,21 @@ class Heartbeat < ApplicationRecord
   validates :interval_seconds, presence: true
   validates :application, presence: true, uniqueness: true
 
+  def self.authenticate!(application:, token:)
+    heartbeat = find_by(application: application)
+
+    return heartbeat if heartbeat&.accepts_token?(token)
+
+    raise ActiveRecord::RecordNotFound, "Couldn't find Heartbeat"
+  end
+
+  def accepts_token?(candidate)
+    return false if candidate.blank? || token.blank?
+
+    ActiveSupport::SecurityUtils.secure_compare(token, candidate) ||
+      TeamToken.authenticates?(team, candidate)
+  end
+
   def register(new_state)
     update(
       last_signal_ok: new_state.casecmp('ok').zero?,

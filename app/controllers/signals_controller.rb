@@ -3,7 +3,7 @@
 # Endoint to receive signals from apps
 class SignalsController < ApplicationController
   def create
-    @heartbeat = Heartbeat.find_by!(
+    @heartbeat = Heartbeat.authenticate!(
       application: params.require(:application),
       token: params.require(:token)
     )

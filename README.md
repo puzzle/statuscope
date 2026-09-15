@@ -63,6 +63,27 @@ and use the rails tasks
 Set `INTERVAL_SECONDS=0` to disable interval checks and just remember the last
 reported state.
 
+# Sharing one token within a team
+
+If several applications belong to the same team, you can create one token that
+is valid for all of them. This is handy when a single job reports for many
+applications, e.g. a CI matrix build over all repositories of a project.
+
+    rails team_token:add TEAM=puzzle
+    # => Added. Token: PxDs87ZkLmQ3vTn5Bh2Wq9Yc
+
+    rails team_token:token TEAM=puzzle
+    # => Token: PxDs87ZkLmQ3vTn5Bh2Wq9Yc
+
+    rails team_token:rotate TEAM=puzzle
+    # => Rotated. Token: 4Jm8Rd2Qs6Vt9Xz3Bn7Kp1Lw
+
+    rails team_token:remove TEAM=puzzle
+    # => Removed.
+
+A team token is accepted by every heartbeat with exactly that team, and it is
+sent in the same `token` parameter as before.
+
 # Sending heartbeats via curl
 
 Signal a success with
