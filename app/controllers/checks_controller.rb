@@ -2,8 +2,9 @@
 
 # Endpoints to get the current state of all Heartbearts
 class ChecksController < ApplicationController
-  include BearerTokenAuthentication # provides authenticate_bearer_token
-  before_action :authenticate_bearer_token, only: :metrics
+  include BearerTokenAuthentication # provides bearer_token_authenticated?
+
+  before_action :bearer_token_authenticated?, only: :metrics
 
   def index
     render json: Heartbeat.all, status: :ok

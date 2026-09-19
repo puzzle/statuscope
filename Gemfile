@@ -17,6 +17,7 @@ group :development, :test do
   gem 'pry-rails'  # replace IRB
 
   gem 'rubocop' # go down in style, consistently
+  gem 'rubocop-rails' # same, but for rails
 
   gem 'fabrication' # replace fixtures
   gem 'rspec-rails' # essentially anything but mintest or test/unit

@@ -11,7 +11,7 @@ class SignalsController < ApplicationController
     if @heartbeat.register(params.require(:status))
       render json: @heartbeat, status: :created
     else
-      render json: @heartbeat.errors, status: :unprocessable_entity
+      render json: @heartbeat.errors, status: :unprocessable_content
     end
   end
 end

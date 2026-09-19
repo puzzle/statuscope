@@ -1,5 +1,8 @@
 # frozen_string_literal: true
 
+# TODO: refactor this to not define methods here
+# TODO: change this from puts/exit1 to abort
+
 namespace :heartbeat do
   def param!(name, transform: nil, default: nil)
     value = ENV[name] || default
@@ -28,7 +31,7 @@ namespace :heartbeat do
   task token: :environment do
     application = param!('APPLICATION')
 
-    h = Heartbeat.find_by_application(application)
+    h = Heartbeat.find_by(application: application)
 
     if h.nil?
       puts "No heartbeat configured for application #{application.inspect}"
@@ -41,7 +44,7 @@ namespace :heartbeat do
   task remove: :environment do
     application = param!('APPLICATION')
 
-    h = Heartbeat.find_by_application(application)
+    h = Heartbeat.find_by(application: application)
 
     if h.nil?
       puts "No heartbeat configured for application #{application.inspect}"
@@ -66,7 +69,7 @@ namespace :team_token do
   task token: :environment do
     team = param!('TEAM')
 
-    t = TeamToken.find_by_team(team)
+    t = TeamToken.find_by(team: team)
 
     if t.nil?
       puts "No token configured for team #{team.inspect}"
@@ -79,7 +82,7 @@ namespace :team_token do
   task rotate: :environment do
     team = param!('TEAM')
 
-    t = TeamToken.find_by_team(team)
+    t = TeamToken.find_by(team: team)
 
     if t.nil?
       puts "No token configured for team #{team.inspect}"
@@ -94,7 +97,7 @@ namespace :team_token do
   task remove: :environment do
     team = param!('TEAM')
 
-    t = TeamToken.find_by_team(team)
+    t = TeamToken.find_by(team: team)
 
     if t.nil?
       puts "No token configured for team #{team.inspect}"
