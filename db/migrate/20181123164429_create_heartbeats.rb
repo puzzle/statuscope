@@ -7,7 +7,7 @@ class CreateHeartbeats < ActiveRecord::Migration[5.2] # :nodoc:
       t.string :token
       t.integer :interval_seconds
       t.datetime :last_signal_at
-      t.boolean :last_signal_ok
+      t.boolean :last_signal_ok # rubocop:disable Rails/ThreeStateBooleanColumn
 
       t.timestamps
     end
