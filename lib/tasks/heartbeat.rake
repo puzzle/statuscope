@@ -1,5 +1,8 @@
 # frozen_string_literal: true
 
+# TODO: refactor this to not define methods here
+# TODO: change this from puts/exit1 to abort
+
 namespace :heartbeat do
   def param!(name, transform: nil, default: nil)
     value = ENV[name] || default
