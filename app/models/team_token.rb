@@ -11,7 +11,7 @@ class TeamToken < ApplicationRecord
   def self.authenticates?(team, candidate)
     return false if team.blank? || candidate.blank?
 
-    team_token = find_by_team(team)
+    team_token = find_by(team: team)
 
     team_token.present? &&
       ActiveSupport::SecurityUtils.secure_compare(team_token.token, candidate)

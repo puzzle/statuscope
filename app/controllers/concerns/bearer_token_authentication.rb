@@ -9,7 +9,7 @@ module BearerTokenAuthentication
   # return-value communicates better the "result" and also helps
   # to prevent rubocop from auto-fixing the happy-path into the
   # middle of the method.
-  def authenticate_bearer_token
+  def bearer_token_authenticated?
     return true if no_token_set?
 
     if auth_header.nil? || !auth_header.start_with?('Bearer ')
@@ -25,11 +25,11 @@ module BearerTokenAuthentication
   end
 
   def expected_token_env_var_name
-    raise 'Please set #expected_token_env_var_name in your controller when using BearerTokenAuthentication'
+    raise 'Please set #expected_token_env_var_name in your controller'
   end
 
   def expected_token
-    ENV[expected_token_env_var_name]
+    ENV.fetch(expected_token_env_var_name, nil)
   end
 
   def auth_header

@@ -19,7 +19,7 @@ RSpec.describe ChecksController, type: :controller do
       it 'returns correct response' do
         get :show, params: { application: heartbeat.application }
         expect(response).to have_http_status(:success)
-        expect(JSON.parse(response.body)['state']).to eq('ok')
+        expect(response.parsed_body['state']).to eq('ok')
       end
     end
 
@@ -31,7 +31,7 @@ RSpec.describe ChecksController, type: :controller do
       it 'returns correct response' do
         get :show, params: { application: heartbeat.application }
         expect(response).to have_http_status(:success)
-        expect(JSON.parse(response.body)['state']).to eq('fail')
+        expect(response.parsed_body['state']).to eq('fail')
       end
     end
   end
@@ -60,7 +60,7 @@ RSpec.describe ChecksController, type: :controller do
       let(:valid_token) { 'i-am-a-metrics-token-and-i-m-allright' }
 
       around do |example|
-        before = ENV['METRICS_TOKEN']
+        before = ENV.fetch('METRICS_TOKEN', nil)
         ENV['METRICS_TOKEN'] = valid_token
         example.call
       ensure
